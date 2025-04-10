@@ -3,6 +3,7 @@ requires = ["setuptools", "wheel"]
 
 [project]
 name = "nitrate-tcms"
+version = "0.1.0"
 description = "A full-featured Test Case Management System"
 readme = "README.rst"
 authors = [
@@ -38,6 +39,8 @@ dependencies = [
     "odfpy==1.4.1",
     "xmltodict==0.13.0",
     "kobo==0.37.0",
+    "django-debug-toolbar (>=5.1.0,<6.0.0)",
+    "mysqlclient (>=2.2.7,<3.0.0)",
 ]
 dynamic = ["version"]
 
@@ -75,6 +78,13 @@ Documentation = "https://nitrate.readthedocs.io/"
 "Source Code" = "https://github.com/Nitrate/Nitrate"
 "Release Notes" = "https://nitrate.readthedocs.io/en/latest/releases/"
 "Container Images" = "https://quay.io/organization/nitrate"
+
+[tool.poetry]
+name = "nitrate-tcms"
+version = "0.1.0"
+description = "Your description"
+authors = ["Your Name <you@example.com>"]
+package-mode = false
 
 [tool.setuptools]
 platforms = ["any"]
