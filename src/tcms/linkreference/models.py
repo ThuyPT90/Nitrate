@@ -5,6 +5,8 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
 from tcms.core.models import TCMSContentTypeBaseModel
+from django.db.models import Index
+from django.contrib.contenttypes.fields import GenericForeignKey
 
 __all__ = (
     "create_link",
@@ -27,20 +29,24 @@ class LinkReference(TCMSContentTypeBaseModel):
     name = models.CharField(max_length=64, blank=True, default="")
     url = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
 
     def __str__(self):
         return self.name
 
     class Meta:
         db_table = "tcms_linkrefs"
-        index_together = (("content_type", "object_pk", "site"),)
-
+        indexes = [
+             Index(fields=["content_type", "object_id", "site"]),
+        ]
     @classmethod
     def get_from(cls, target):
         """Retrieve all links attached to the target object already"""
 
         target_type = ContentType.objects.get_for_model(target)
-        return cls.objects.filter(content_type__pk=target_type.id, object_pk=target.pk)
+        return cls.objects.filter(content_type__pk=target_type.id, object_id=target.pk)
 
     @classmethod
     def unlink(cls, link_id):

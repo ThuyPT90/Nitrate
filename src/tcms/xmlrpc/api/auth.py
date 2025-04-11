@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import django.contrib.auth
+from django.contrib.auth import authenticate
+from xmlrpc.client import Fault
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 
@@ -78,3 +79,10 @@ def login_krbv(request):
 def logout(request):
     """Delete session information"""
     django.contrib.auth.logout(request)
+
+@log_call(namespace=__xmlrpc_namespace__)
+def legacy_login(request, username, password):
+    """
+    Backward-compatible login method for python-tcms-api
+    """
+    return login(request, {'username': username, 'password': password})

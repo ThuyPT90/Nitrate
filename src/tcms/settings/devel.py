@@ -5,6 +5,9 @@ from tcms.settings.common import *
 # Debug settings
 DEBUG = True
 
+# 👇 Thêm đoạn này để đọc biến môi trường từ common.py
+from .common import DB_ENGINE
+
 DATABASES = {
     "default": {
         "ENGINE": SUPPORTED_DB_ENGINES[DB_ENGINE],

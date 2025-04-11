@@ -10,6 +10,7 @@ from django.db import models
 from tcms.core.models import TCMSActionModel
 from tcms.core.models.fields import NitrateBooleanField
 from tcms.core.utils import calc_percent
+from django.db.models import Index
 
 # FIXME: plugins_support is no longer available. dead code here.
 try:
@@ -325,7 +326,11 @@ class TestEnvironmentCategory(models.Model):
 
     class Meta:
         db_table = "test_environment_category"
-        index_together = (("env_category_id", "product"), ("product", "name"))
+        indexes = [
+            Index(fields=["env_category_id", "product"]),
+            Index(fields=["product", "name"]),
+        ]
+       
 
     def __str__(self):
         return self.name
